@@ -1,0 +1,53 @@
+K折交叉检验法及其Python代码实现
+
+import numpy as np
+import pandas as pd
+
+#导入k交叉模块
+from sklearn.model_selection import KFold
+
+df1 = pd.read_scv("kobe_train.csv")
+df1.head()
+
+#拆分训练集和测试集
+#将输入模型的特征x和目标属性y切分出来
+X = df1.iloc[:,2:4]
+Y = df1.iloc[:,5]
+
+#数据分为训练集和测试集，K=10
+kf = KFold(n_splits = 10)
+for train, valid in kf.split(X):
+    print("train:%s, valid:%s"%(train,valid))
+
+=====--
+
+from sklearn.model_selection import KFold  
+import numpy as np  
+
+X = np.arange(24).reshape(12,2)  
+Y = np.random.choice([1,2],12,p=[0.4,0.6])  
+kf = KFold(n_splits=5,shuffle=False)  
+for train_index , test_index in kf.split(X):  
+       print('train_index:%s , test_index: %s ' %(train_index,test_index)) 
+
+参数说明：
+
+n_splits：表示划分几等份
+
+shuffle：在每次划分时，是否进行洗牌
+
+①若为Falses时，其效果等同于random_state等于整数，每次划分的结果相同
+
+②若为True时，每次划分的结果都不一样，表示经过洗牌，随机取样的
+
+random_state：随机种子数
+
+属性：
+
+①get_n_splits(X=None, y=None, groups=None)：获取参数n_splits的值
+
+②split(X, y=None, groups=None)：将数据集划分成训练集和测试集，返回索引生成器
+
+通过一个不能均等划分的栗子，设置不同参数值，观察其结果
+
+①设置shuffle=False，运行两次，发现两次结果相同
